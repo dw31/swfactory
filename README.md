@@ -44,12 +44,23 @@ orchestrator records `total_cost_usd` per run either way.
 ```bash
 git clone <this repo> ~/src/swfactory
 cd ~/src/swfactory
-python3 -m venv .venv && source .venv/bin/activate
+python3.12 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
-pytest -q               # 4 tests, no network, ~2s
+pytest -q               # 7 tests, no network, ~2s
 ```
 
-`pipx install .` also works if you want `swfactory` on PATH globally.
+Name the Python version explicitly. On macOS, plain `python3` can still be the system
+Python 3.9, which fails with `requires a different Python: 3.9.6 not in '>=3.11'`.
+
+If you use [uv](https://docs.astral.sh/uv/), it can supply Python for you, with no
+`brew install python@3.12` needed:
+
+```bash
+uv venv --python 3.12 .venv && source .venv/bin/activate
+uv pip install -e ".[dev]"
+```
+
+`pipx install --python python3.12 .` also works if you want `swfactory` on PATH globally.
 
 ### 1.3 Prepare the target repository
 
@@ -88,7 +99,7 @@ Edit it:
 ---
 tracker:
   kind: github
-  repo: doug/your-project
+  repo: OWNER/your-project    # GitHub owner/name, not a local path
 workspace:
   repo_path: .
   base_branch: main
@@ -140,7 +151,7 @@ Notes on the agent command:
 
 ```bash
 for l in agent:ready agent:running agent:review agent:failed priority:p0 priority:p1 priority:p2; do
-  gh label create "$l" --repo doug/your-project 2>/dev/null || true
+  gh label create "$l" --repo OWNER/your-project 2>/dev/null || true
 done
 ```
 
