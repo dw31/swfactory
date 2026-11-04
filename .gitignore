@@ -1,0 +1,33 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+.venv/
+venv/
+
+# Build and packaging output
+build/
+dist/
+*.egg-info/
+
+# Test and lint caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# swfactory runtime state
+# Listed individually because .swfactory/review-gate.sh must stay tracked:
+# gate checks run inside worktrees, which only contain committed files.
+.swfactory/workspaces/
+.swfactory/logs/
+.swfactory/state.json
+
+# Local secrets and settings
+.env
+.env.*
+.claude/settings.local.json
+
+# macOS
+.DS_Store
